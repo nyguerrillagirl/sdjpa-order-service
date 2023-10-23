@@ -1,27 +1,13 @@
 package guru.springframework.orderservice.domain;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 import java.util.Objects;
 
 @Entity
-public class OrderHeader {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class OrderHeader extends BaseEntity {
 
     private String customer;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public String getCustomer() {
         return customer;
@@ -35,6 +21,7 @@ public class OrderHeader {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         OrderHeader that = (OrderHeader) o;
 
@@ -43,6 +30,8 @@ public class OrderHeader {
 
     @Override
     public int hashCode() {
-        return customer != null ? customer.hashCode() : 0;
+        int result = super.hashCode();
+        result = 31 * result + (customer != null ? customer.hashCode() : 0);
+        return result;
     }
 }
