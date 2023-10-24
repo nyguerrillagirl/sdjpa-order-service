@@ -32,6 +32,6 @@ public class OrderHeaderRepositoryTest {
         assertNotNull(fetchedOrder);
         assertEquals("Lorraine Figueroa", fetchedOrder.getCustomer());
         assertNotNull(fetchedOrder.getCreatedDate());
-
+        assertNotNull(fetchedOrder.getLastModifiedDate());
     }
 }
