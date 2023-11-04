@@ -1,9 +1,6 @@
 package guru.springframework.orderservice.repositories;
 
-import guru.springframework.orderservice.domain.OrderHeader;
-import guru.springframework.orderservice.domain.OrderLine;
-import guru.springframework.orderservice.domain.Product;
-import guru.springframework.orderservice.domain.ProductStatus;
+import guru.springframework.orderservice.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("local")
 @DataJpaTest
@@ -27,6 +21,9 @@ public class OrderHeaderRepositoryTest {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    CustomerRepository customerRepository;
+
     Product product;
 
     @BeforeEach
@@ -38,16 +35,18 @@ public class OrderHeaderRepositoryTest {
     }
     @Test
     void testSaveOrderWithLine() {
+        Customer aCustomer = new Customer();
+        aCustomer.setCustomerName("Samantha Neill");
+        Customer savedCustomer = customerRepository.save(aCustomer);
+
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setCustomer("Lorraine Figueroa");
+        orderHeader.setCustomer(savedCustomer);
 
 
         OrderLine orderLine = new OrderLine();
         orderLine.setQuantityOrdered(5);
         orderLine.setProduct(product);
 
-        //orderHeader.setOrderLines(Set.of(orderLine));
-        //orderLine.setOrderHeader(orderHeader);
         orderHeader.addOrderLine(orderLine);
 
         OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
@@ -61,12 +60,16 @@ public class OrderHeaderRepositoryTest {
         // Let's fetch the saved order
         OrderHeader fetchedOrder = orderHeaderRepository.getReferenceById(savedOrder.getId());
         // Let's check that order_line exists
-        assertNotNull(fetchedOrder.getOrderLines().size() > 0);
+        assertTrue(fetchedOrder.getOrderLines().size() > 0);
     }
     @Test
     void testSaveOrder() {
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setCustomer("Lorraine Figueroa");
+        Customer aCustomer = new Customer();
+        aCustomer.setCustomerName("Samantha Neill");
+        Customer savedCustomer = customerRepository.save(aCustomer);
+
+        orderHeader.setCustomer(savedCustomer);
 
         OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
         // test it was saved
@@ -75,7 +78,7 @@ public class OrderHeaderRepositoryTest {
         // check by fetching
         OrderHeader fetchedOrder = orderHeaderRepository.getReferenceById(savedOrder.getId());
         assertNotNull(fetchedOrder);
-        assertEquals("Lorraine Figueroa", fetchedOrder.getCustomer());
+        assertEquals("Samantha Neill", fetchedOrder.getCustomer().getCustomerName());
         assertNotNull(fetchedOrder.getCreatedDate());
         assertNotNull(fetchedOrder.getLastModifiedDate());
     }
