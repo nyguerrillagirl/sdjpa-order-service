@@ -59,6 +59,17 @@ public class OrderHeader extends BaseEntity {
     @JoinColumn(name="customer_id", nullable = false)
     private Customer customer;
 
+    @OneToOne
+    private OrderApproval orderApproval;
+
+    public OrderApproval getOrderApproval() {
+        return orderApproval;
+    }
+
+    public void setOrderApproval(OrderApproval orderApproval) {
+        this.orderApproval = orderApproval;
+    }
+
     public void addOrderLine(OrderLine orderLine) {
         if (orderLines == null) {
             orderLines = new HashSet<>();
