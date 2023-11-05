@@ -55,9 +55,9 @@ public class OrderHeaderRepositoryTest {
 
         OrderApproval orderApproval = new OrderApproval();
         orderApproval.setApprovedBy("me");
-        OrderApproval savedApproval = orderApprovalRepository.save(orderApproval);
+        //OrderApproval savedApproval = orderApprovalRepository.save(orderApproval);
 
-        orderHeader.setOrderApproval(savedApproval);
+        orderHeader.setOrderApproval(orderApproval);
 
         OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
 
