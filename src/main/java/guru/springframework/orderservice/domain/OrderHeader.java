@@ -59,7 +59,7 @@ public class OrderHeader extends BaseEntity {
     @JoinColumn(name="customer_id", nullable = false)
     private Customer customer;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
     private OrderApproval orderApproval;
 
     public OrderApproval getOrderApproval() {

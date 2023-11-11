@@ -6,7 +6,6 @@ import jakarta.persistence.EntityNotFoundException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -52,6 +51,12 @@ public class OrderHeaderRepositoryTest {
         orderLine.setProduct(product);  // note: how we use the product
 
         orderHeader.addOrderLine(orderLine);
+
+        // Set up an orderApproval for this Order
+        OrderApproval orderApproval = new OrderApproval();
+        orderApproval.setApprovedBy("me");
+        orderHeader.setOrderApproval(orderApproval);
+
         OrderHeader savedOrder = orderHeaderRepository.saveAndFlush(orderHeader);
 
         System.out.println("order saved and flushed.");
