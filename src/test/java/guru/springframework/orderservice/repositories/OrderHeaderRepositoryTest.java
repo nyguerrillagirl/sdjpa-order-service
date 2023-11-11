@@ -1,13 +1,18 @@
 package guru.springframework.orderservice.repositories;
 
 import guru.springframework.orderservice.domain.*;
-import org.aspectj.weaver.ast.Or;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,9 +30,6 @@ public class OrderHeaderRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
 
-    @Autowired
-    OrderApprovalRepository orderApprovalRepository;
-
     Product product;
 
     @BeforeEach
@@ -37,6 +39,37 @@ public class OrderHeaderRepositoryTest {
         newProduct.setDescription("test product");
         product = productRepository.saveAndFlush(newProduct);
     }
+
+    @Test
+    void testDeleteCascade() {
+        OrderHeader orderHeader = new OrderHeader();
+        Customer customer = new Customer();
+        customer.setCustomerName("Sam Spade");
+        orderHeader.setCustomer(customerRepository.save(customer)); // note how we save the customer first
+
+        OrderLine orderLine = new OrderLine();
+        orderLine.setQuantityOrdered(3);
+        orderLine.setProduct(product);  // note: how we use the product
+
+        orderHeader.addOrderLine(orderLine);
+        OrderHeader savedOrder = orderHeaderRepository.saveAndFlush(orderHeader);
+
+        System.out.println("order saved and flushed.");
+        orderHeaderRepository.deleteById(savedOrder.getId());
+        orderHeaderRepository.flush();
+
+        Optional<OrderHeader> optFetchedOrder = orderHeaderRepository.findById(savedOrder.getId());
+        assertFalse(optFetchedOrder.isPresent());
+
+    }
+
+    @Test
+    void testUnknownOrder() {
+        OrderHeader fetchedOrder = orderHeaderRepository.getReferenceById(100000L);
+        assertNotNull(fetchedOrder);
+      }
+
+
     @Test
     void testSaveOrderWithLine() {
         Customer aCustomer = new Customer();
@@ -92,4 +125,6 @@ public class OrderHeaderRepositoryTest {
         assertNotNull(fetchedOrder.getCreatedDate());
         assertNotNull(fetchedOrder.getLastModifiedDate());
     }
+
+
 }
