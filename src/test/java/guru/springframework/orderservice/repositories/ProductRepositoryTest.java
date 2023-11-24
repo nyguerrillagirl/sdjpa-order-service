@@ -19,7 +19,7 @@ public class ProductRepositoryTest {
     ProductRepository productRepository;
 
     @Test void testGetCategory() {
-        Product product = productRepository.findByDescription("PRODUCT1");
+        Product product = productRepository.findByDescription("PRODUCT1").get();
 
         assertNotNull(product);
         assertNotNull(product.getCategories());
