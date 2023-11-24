@@ -5,6 +5,7 @@ import guru.springframework.orderservice.repositories.CustomerRepository;
 import guru.springframework.orderservice.repositories.OrderHeaderRepository;
 import guru.springframework.orderservice.repositories.ProductRepository;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -34,7 +35,16 @@ public class DataLoadTest {
     
     @Autowired
     ProductRepository productRepository;
-    
+
+    @Test
+    void testLazyVsEager() {
+        OrderHeader orderHeader = orderHeaderRepository.getReferenceById(5L);
+
+        System.out.println("Order Id is: " + orderHeader.getId());
+        System.out.println("Customer Name is: " + orderHeader.getCustomer().getCustomerName());
+    }
+
+
     @Disabled
     @Rollback(value = false)
     @Test
