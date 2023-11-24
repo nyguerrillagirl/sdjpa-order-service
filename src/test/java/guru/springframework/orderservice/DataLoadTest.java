@@ -61,7 +61,7 @@ public class DataLoadTest {
         products.forEach(product -> {
             OrderLine orderLine = new OrderLine();
             orderLine.setProduct(product);
-            orderLine.setQuantityOrdered(random.nextInt(20));
+            orderLine.setQuantityOrdered(random.nextInt(20)+1);
 
             orderHeader.addOrderLine(orderLine);
         });

@@ -77,6 +77,7 @@ public class OrderHeader extends BaseEntity {
             orderLines = new HashSet<>();
         }
         orderLines.add(orderLine);
+        // sets the association between orderHeader and orderLine
         orderLine.setOrderHeader(this);
     }
 
