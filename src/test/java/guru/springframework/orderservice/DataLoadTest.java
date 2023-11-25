@@ -38,6 +38,8 @@ public class DataLoadTest {
     @Autowired
     ProductRepository productRepository;
 
+
+
     @Test
     void testDBLock() {
         Long id = 2L;
