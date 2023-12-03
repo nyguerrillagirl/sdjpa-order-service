@@ -12,7 +12,7 @@ public class Product extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
 
-    private Integer quantityOnHand;
+    private Integer quantityOnHand = 0;
 
     @ManyToMany
     @JoinTable(name="product_category",
