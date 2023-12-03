@@ -1,6 +1,7 @@
 package guru.springframework.orderservice.repositories;
 
 import guru.springframework.orderservice.domain.Product;
+import guru.springframework.orderservice.domain.ProductStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -48,6 +49,7 @@ public class ProductRepositoryTest {
         // Create a new product
         Product newProduct = new Product();
         newProduct.setDescription("Udemy course gift card");
+        newProduct.setProductStatus(ProductStatus.NEW);
         newProduct.setQuantityOnHand(100);
         Product savedProduct = productRepository.saveAndFlush(newProduct);
 
