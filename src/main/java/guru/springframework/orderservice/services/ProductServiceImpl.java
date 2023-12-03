@@ -3,8 +3,10 @@ package guru.springframework.orderservice.services;
 import guru.springframework.orderservice.domain.Product;
 import guru.springframework.orderservice.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     public ProductServiceImpl(ProductRepository productRepository) {
