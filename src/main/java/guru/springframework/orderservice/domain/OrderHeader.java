@@ -54,6 +54,9 @@ public class OrderHeader extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @Version
+    private Integer version;
+
     @OneToMany(mappedBy = "orderHeader", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     private Set<OrderLine> orderLines;
@@ -124,6 +127,14 @@ public class OrderHeader extends BaseEntity {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override
