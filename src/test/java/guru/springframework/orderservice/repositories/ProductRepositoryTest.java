@@ -42,4 +42,24 @@ public class ProductRepositoryTest {
         assertNotNull(fetchedProduct.getCreatedDate());
         assertNotNull(fetchedProduct.getLastModifiedDate());
     }
+
+    @Test
+    void testQuanityOnHand() {
+        // Create a new product
+        Product newProduct = new Product();
+        newProduct.setDescription("Udemy course gift card");
+        newProduct.setQuantityOnHand(100);
+        Product savedProduct = productRepository.saveAndFlush(newProduct);
+
+        Product udemyGiftCards = productRepository.getReferenceById(savedProduct.getId());
+        assertEquals(100, udemyGiftCards.getQuantityOnHand());
+
+        // Now let's update
+        udemyGiftCards.setQuantityOnHand(90);
+        Product udemyGiftCardsAfterSaleOf10 = productRepository.saveAndFlush(udemyGiftCards);
+
+        // Get it back and check
+        Product currentUdemyGiftCards = productRepository.getReferenceById(udemyGiftCardsAfterSaleOf10.getId());
+        assertEquals(90, currentUdemyGiftCards.getQuantityOnHand());
+    }
 }

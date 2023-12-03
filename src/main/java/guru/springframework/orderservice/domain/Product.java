@@ -12,6 +12,8 @@ public class Product extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private ProductStatus productStatus;
 
+    private Integer quantityOnHand;
+
     @ManyToMany
     @JoinTable(name="product_category",
                 joinColumns = @JoinColumn(name="product_id"),
@@ -32,6 +34,14 @@ public class Product extends BaseEntity{
 
     public void setProductStatus(ProductStatus productStatus) {
         this.productStatus = productStatus;
+    }
+
+    public Integer getQuantityOnHand() {
+        return quantityOnHand;
+    }
+
+    public void setQuantityOnHand(Integer quantityOnHand) {
+        this.quantityOnHand = quantityOnHand;
     }
 
     public Set<Category> getCategories() {
