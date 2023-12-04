@@ -116,7 +116,7 @@ public class OrderHeaderRepositoryTest {
         aCustomer.setPhone("0123456789");
 
         Address address = new Address();
-        address.setCity("0123456789012345678901234567890123456789");
+        address.setCity("012345678901234567890123456789");
         aCustomer.setAddress(address);
 
         Customer savedCustomer = customerRepository.save(aCustomer);
