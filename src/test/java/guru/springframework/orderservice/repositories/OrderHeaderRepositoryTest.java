@@ -113,6 +113,12 @@ public class OrderHeaderRepositoryTest {
         OrderHeader orderHeader = new OrderHeader();
         Customer aCustomer = new Customer();
         aCustomer.setCustomerName("Samantha Neill");
+        aCustomer.setPhone("0123456789");
+
+        Address address = new Address();
+        address.setCity("0123456789012345678901234567890123456789");
+        aCustomer.setAddress(address);
+
         Customer savedCustomer = customerRepository.save(aCustomer);
 
         orderHeader.setCustomer(savedCustomer);
